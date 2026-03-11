@@ -2,8 +2,6 @@ import './data.js';
 import './audio.js';
 import './achievements.js';
 import './progression.js';
-import './svgTemplates.js';
-import './svgFactory.js';
 import './game.js';
 import './ui.js';
 

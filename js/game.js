@@ -2,11 +2,26 @@
  * 🎮 Word Safari: Enhanced Game Logic with Achievements & Progression
  */
 
-import { vocabularyClues, getAnimalsByAttribute, getRandomAnimals, spellingWords, getRandomDailyQuestions, ANIMALS } from './data.js';
+import { vocabularyClues, getAnimalsByAttribute, getRandomAnimals, spellingWords, getRandomDailyQuestions, ANIMALS, getAnimalImagePath } from './data.js';
 import { playSound, speak } from './audio.js';
 import { achievementManager } from './achievements.js';
 import { progressionManager } from './progression.js';
-import { renderAnimalSvg } from './svgFactory.js';
+
+function escapeHtml(value) {
+    return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+}
+
+function renderAnimalImage(animal) {
+    if (!animal) return '';
+
+    const src = getAnimalImagePath(animal.id);
+    const alt = escapeHtml(animal.name || animal.id);
+    return `<img class="animal-art" src="${src}" alt="${alt}" decoding="async">`;
+}
 
 /* ========================================
    GAME MANAGER CLASS
@@ -191,7 +206,7 @@ class GameManager {
         const container = document.createElement('div');
         container.className = 'animal-card';
         container.dataset.animalId = animal.id;
-        container.innerHTML = renderAnimalSvg(animal.id);
+        container.innerHTML = renderAnimalImage(animal);
 
         const label = document.createElement('div');
         label.className = 'animal-label';
@@ -300,14 +315,14 @@ class GameManager {
         if (!modal || !animal.facts) return;
 
         const nameEl = document.getElementById('fact-animal-name');
-        const svgEl = document.getElementById('fact-animal-svg');
+        const artEl = document.getElementById('fact-animal-art');
         const descEl = document.getElementById('fact-description');
         const habitatEl = document.getElementById('fact-habitat');
         const dietEl = document.getElementById('fact-diet');
         const statusEl = document.getElementById('fact-status');
 
         if (nameEl) nameEl.textContent = animal.name;
-        if (svgEl) svgEl.innerHTML = renderAnimalSvg(animal.id);
+        if (artEl) artEl.innerHTML = renderAnimalImage(animal);
         if (descEl) descEl.textContent = animal.facts.description || '';
         if (habitatEl) habitatEl.textContent = animal.facts.habitat || '';
         if (dietEl) dietEl.textContent = animal.facts.diet || '';
@@ -708,7 +723,7 @@ class SentenceBuilderManager {
         document.getElementById('slot-name').dataset.expected = myName;
         document.getElementById('slot-adjective').dataset.expected = myAdj;
         document.getElementById('slot-category').dataset.expected = myCat;
-        document.getElementById('sentence-animal-svg').innerHTML = renderAnimalSvg(this.currentAnimal.id);
+        document.getElementById('sentence-animal-art').innerHTML = renderAnimalImage(this.currentAnimal);
 
         // Generate word bank (mix correct with random)
         const bank = [myName, myAdj, myCat];

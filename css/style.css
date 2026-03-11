@@ -457,44 +457,35 @@ body {
     animation: none;
 }
 
-.animal-card.small svg {
+.animal-card.small .animal-art {
     width: 80px;
     height: 80px;
 }
 
-.animal-card.medium svg {
+.animal-card.medium .animal-art {
     width: 120px;
     height: 120px;
 }
 
-.animal-card.large svg {
+.animal-card.large .animal-art {
     width: 160px;
     height: 160px;
 }
 
-.animal-card svg {
+.animal-card .animal-art {
     width: 120px;
     height: 120px;
-    transition: all 0.3s ease;
-}
-
-.animal-svg {
-    width: 100%;
-    height: 100%;
     display: block;
-    shape-rendering: geometricPrecision;
-}
-
-.animal-svg .svg-part {
-    transition: fill 0.25s ease, stroke 0.25s ease;
+    object-fit: contain;
+    transition: transform 0.3s ease, filter 0.3s ease;
 }
 
 /* Idle animations for animals */
-.animal-card.idle-blink svg {
+.animal-card.idle-blink .animal-art {
     animation: blink 5s ease-in-out infinite;
 }
 
-.animal-card.idle-breathe svg {
+.animal-card.idle-breathe .animal-art {
     animation: breathe 4s ease-in-out infinite;
 }
 
@@ -683,6 +674,12 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.sentence-animal-box .animal-art {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
 }
 
 .sentence-drop-zone {
@@ -1287,9 +1284,10 @@ body {
     margin-bottom: var(--spacing-md);
 }
 
-.fact-animal-image svg {
+.fact-animal-image .animal-art {
     width: 150px;
     height: 150px;
+    object-fit: contain;
 }
 
 .fact-content {
@@ -1460,7 +1458,7 @@ body {
         grid-template-columns: 1fr;
     }
 
-    .animal-card svg {
+    .animal-card .animal-art {
         width: 80px;
         height: 80px;
     }
@@ -1545,8 +1543,8 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
     .animal-card,
-    .animal-card.idle-blink svg,
-    .animal-card.idle-breathe svg,
+    .animal-card.idle-blink .animal-art,
+    .animal-card.idle-breathe .animal-art,
     .animal-card.idle-wiggle,
     .combo-counter,
     .feedback-popup,
@@ -1565,8 +1563,8 @@ body {
 }
 
 body.reduced-motion .animal-card,
-body.reduced-motion .animal-card.idle-blink svg,
-body.reduced-motion .animal-card.idle-breathe svg,
+body.reduced-motion .animal-card.idle-blink .animal-art,
+body.reduced-motion .animal-card.idle-breathe .animal-art,
 body.reduced-motion .animal-card.idle-wiggle,
 body.reduced-motion .combo-counter,
 body.reduced-motion .feedback-popup,

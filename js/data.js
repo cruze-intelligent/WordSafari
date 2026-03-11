@@ -15,6 +15,7 @@ const shuffle = (arr) => [...arr].sort(() => Math.random() - 0.5);
    ANIMALS (42)  - minimal SVG placeholders (replace with detailed later)
    Each animal: id, name, biome, attributes[], size (small|medium|large),
    svg, facts
+   SVG is retained only as source art for generated PNG assets.
    ======================================================= */
 const svgWrap = (body, color = '#FF8C42') =>
   `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -345,6 +346,10 @@ export function getRandomDailyQuestions(n = 5) {
   return shuffle(DAILY_QUESTIONS).slice(0, n);
 }
 
+export function getAnimalImagePath(animalId) {
+  return `assets/animals/${encodeURIComponent(animalId)}.png`;
+}
+
 /* =======================================================
    SAFETY DEFAULT (prevent import errors)
    ======================================================= */
@@ -354,5 +359,6 @@ export default {
   spellingWords,
   getAnimalsByAttribute,
   getRandomAnimals,
-  getRandomDailyQuestions
+  getRandomDailyQuestions,
+  getAnimalImagePath
 };
