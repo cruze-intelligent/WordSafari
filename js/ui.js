@@ -7,6 +7,14 @@ import { playSound, toggleMute, setVolume, getVolume, setMuted, isMuted } from '
 import { achievementManager } from './achievements.js';
 import { progressionManager } from './progression.js';
 
+function escapeHtml(value) {
+    return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+}
+
 /* ========================================
    UI MANAGER CLASS
    ======================================== */
@@ -14,7 +22,13 @@ class UIManager {
     constructor() {
         this.uiSettingsKey = 'wordSafari_ui_settings';
         this.returnToPauseAfterSettings = false;
-        this.canInstallPwa = false;
+        this.pwaInstallState = {
+            installed: false,
+            canInstall: false,
+            mode: 'unknown',
+            message: 'Install prompt will appear when supported by your browser.',
+            steps: []
+        };
         this.uiSettings = this.loadUISettings();
 
         this.currentScreen = 'start';
@@ -197,7 +211,10 @@ class UIManager {
         });
 
         window.addEventListener('pwa-install-availability', (event) => {
-            this.canInstallPwa = Boolean(event.detail?.canInstall);
+            this.pwaInstallState = {
+                ...this.pwaInstallState,
+                ...(event.detail || {})
+            };
             this.updateWelcomeInstallState();
         });
 
@@ -387,22 +404,44 @@ class UIManager {
     updateWelcomeInstallState() {
         const installBtn = document.getElementById('btn-welcome-install');
         const statusEl = document.getElementById('welcome-install-status');
-        const alreadyInstalled = localStorage.getItem('wordSafari_pwa_installed') === 'yes';
+        const stepsEl = document.getElementById('welcome-install-steps');
+        const installState = this.pwaInstallState || {};
+        const alreadyInstalled = Boolean(installState.installed) || localStorage.getItem('wordSafari_pwa_installed') === 'yes';
+
+        const setSteps = (steps) => {
+            if (!stepsEl) return;
+            const normalizedSteps = Array.isArray(steps) ? steps : [];
+
+            if (!normalizedSteps.length) {
+                stepsEl.innerHTML = '';
+                stepsEl.classList.add('hidden');
+                return;
+            }
+
+            stepsEl.innerHTML = normalizedSteps
+                .map((step) => `<li>${escapeHtml(step)}</li>`)
+                .join('');
+            stepsEl.classList.remove('hidden');
+        };
 
         if (alreadyInstalled) {
             if (installBtn) installBtn.classList.add('hidden');
             if (statusEl) statusEl.textContent = 'Word Safari is already installed on this device.';
+            setSteps([]);
             return;
         }
 
-        if (this.canInstallPwa) {
+        if (installState.canInstall) {
             if (installBtn) installBtn.classList.remove('hidden');
-            if (statusEl) statusEl.textContent = 'This device supports install. Tap Install App to continue.';
+            if (installBtn) installBtn.textContent = '⬇️ Install App';
+            if (statusEl) statusEl.textContent = installState.message || 'This device supports install. Tap Install App to continue.';
+            setSteps([]);
             return;
         }
 
         if (installBtn) installBtn.classList.add('hidden');
-        if (statusEl) statusEl.textContent = 'Install prompt will appear when supported by your browser.';
+        if (statusEl) statusEl.textContent = installState.message || 'Install prompt will appear when supported by your browser.';
+        setSteps(installState.steps);
     }
 
     showScreen(name) {

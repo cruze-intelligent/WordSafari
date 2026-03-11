@@ -172,6 +172,50 @@ async function runPwaTest(browser) {
   return `PWA test passed (scope: ${swState.scope})`;
 }
 
+async function runPwaMobileTest(browser) {
+  const iphonePage = await preparePage(browser);
+  await iphonePage.setViewport({
+    width: 390,
+    height: 844,
+    isMobile: true,
+    hasTouch: true,
+    deviceScaleFactor: 3
+  });
+  await iphonePage.setUserAgent('Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1');
+  await iphonePage.goto(BASE_URL, { waitUntil: 'networkidle0' });
+
+  const iosInstallText = await iphonePage.$eval('#welcome-install-status', (el) => el.textContent.trim());
+  const iosSteps = await iphonePage.$$eval('#welcome-install-steps li', (els) => els.map((el) => el.textContent.trim()));
+
+  assert(iosInstallText.includes('Share') || iosInstallText.includes('Home Screen'), 'iOS install guidance should mention the Share sheet / Add to Home Screen flow.');
+  assert(iosSteps.some((step) => step.includes('Add to Home Screen')), 'iOS install guidance should include Add to Home Screen steps.');
+
+  await iphonePage.close();
+
+  const androidPage = await preparePage(browser);
+  await androidPage.setViewport({
+    width: 412,
+    height: 915,
+    isMobile: true,
+    hasTouch: true,
+    deviceScaleFactor: 2.625
+  });
+  await androidPage.setUserAgent('Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Mobile Safari/537.36');
+  await androidPage.goto(BASE_URL, { waitUntil: 'networkidle0' });
+
+  const androidInstallText = await androidPage.$eval('#welcome-install-status', (el) => el.textContent.trim());
+
+  assert(
+    androidInstallText.includes('install')
+      || androidInstallText.includes('home screen')
+      || androidInstallText.includes('browser menu'),
+    'Android install guidance should mention install or Add to Home screen.'
+  );
+
+  await androidPage.close();
+  return 'Mobile PWA guidance test passed';
+}
+
 async function runOfflineTest(browser) {
   const page = await preparePage(browser);
   await page.goto(BASE_URL, { waitUntil: 'networkidle0' });
@@ -340,6 +384,7 @@ async function runScenario(browser, scenario) {
   const scenarios = {
     smoke: runSmokeTest,
     pwa: runPwaTest,
+    'pwa-mobile': runPwaMobileTest,
     offline: runOfflineTest,
     migration: runMigrationTest,
     uiflow: runUiFlowTest

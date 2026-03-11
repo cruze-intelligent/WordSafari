@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="title desc">
+  <title id="title">Fennec Fox</title>
+  <desc id="desc">A desert fennec fox with oversized ears on a warm sand background.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#fff0c8"/>
+      <stop offset="100%" stop-color="#ffd08b"/>
+    </linearGradient>
+  </defs>
+  <rect width="200" height="200" rx="44" fill="url(#bg)"/>
+  <circle cx="100" cy="96" r="76" fill="#fff6e6" opacity=".4"/>
+  <path d="M48 86 84 42l8 56Z" fill="#f7b56c"/>
+  <path d="M152 86 116 42l-8 56Z" fill="#f7b56c"/>
+  <path d="M60 84 82 56l4 30Z" fill="#fbe9d1"/>
+  <path d="M140 84 118 56l-4 30Z" fill="#fbe9d1"/>
+  <path d="M64 138c0-38 18-66 36-66 18 0 36 28 36 66 0 22-16 38-36 38s-36-16-36-38Z" fill="#f7bf74"/>
+  <path d="M75 140c0-28 12-48 25-48s25 20 25 48c0 18-11 29-25 29s-25-11-25-29Z" fill="#fff3de"/>
+  <circle cx="84" cy="108" r="5" fill="#2f261f"/>
+  <circle cx="116" cy="108" r="5" fill="#2f261f"/>
+  <circle cx="82.5" cy="106.5" r="1.2" fill="#fff"/>
+  <circle cx="114.5" cy="106.5" r="1.2" fill="#fff"/>
+  <path d="M100 115c6 0 11 4 11 8 0 6-6 10-11 12-5-2-11-6-11-12 0-4 5-8 11-8Z" fill="#5d4632"/>
+  <path d="M90 136c4 4 10 6 16 6s12-2 16-6" fill="none" stroke="#8a6542" stroke-linecap="round" stroke-width="4"/>
+  <path d="M62 176c1-15 7-30 16-41l12 7c-6 11-10 23-10 34Z" fill="#e7a14e"/>
+  <path d="M138 176c-1-15-7-30-16-41l-12 7c6 11 10 23 10 34Z" fill="#e7a14e"/>
+  <path d="M107 142c17-2 32 7 42 26-10 6-22 8-33 5-11-3-20-11-24-22 3-5 8-8 15-9Z" fill="#f0aa55"/>
+  <path d="M121 150c8 0 17 5 26 16-8 4-16 5-24 3-7-2-13-7-18-15 5-3 10-4 16-4Z" fill="#fff3de"/>
+</svg>

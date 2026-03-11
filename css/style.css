@@ -480,6 +480,15 @@ body {
     transition: transform 0.3s ease, filter 0.3s ease;
 }
 
+.animal-art--raster {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
+
+.animal-art--vector {
+    image-rendering: auto;
+}
+
 /* Idle animations for animals */
 .animal-card.idle-blink .animal-art {
     animation: blink 5s ease-in-out infinite;
@@ -1223,6 +1232,18 @@ body {
     margin-top: var(--spacing-sm);
     font-size: 0.92rem;
     opacity: 0.78;
+}
+
+.welcome-install-steps {
+    width: min(100%, 360px);
+    margin: 12px auto 0;
+    padding-left: 1.25rem;
+    line-height: 1.45;
+    text-align: left;
+}
+
+.welcome-install-steps li + li {
+    margin-top: 6px;
 }
 
 .welcome-heartfelt {

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="title desc">
+  <title id="title">Horned Lizard</title>
+  <desc id="desc">A horned lizard with desert coloring and a ring of head spikes.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#f8e1b0"/>
+      <stop offset="100%" stop-color="#e7bb72"/>
+    </linearGradient>
+  </defs>
+  <rect width="200" height="200" rx="44" fill="url(#bg)"/>
+  <ellipse cx="100" cy="162" rx="68" ry="18" fill="#d39b58" opacity=".8"/>
+  <path d="M54 116c0-28 20-47 46-47s46 19 46 47c0 25-20 42-46 42s-46-17-46-42Z" fill="#ad7b49"/>
+  <path d="M69 117c0-18 13-31 31-31s31 13 31 31c0 17-13 28-31 28s-31-11-31-28Z" fill="#d0a06a"/>
+  <path d="M78 70 87 56l6 17Z" fill="#996740"/>
+  <path d="M92 65 100 49l8 16Z" fill="#996740"/>
+  <path d="M108 65 116 49l8 16Z" fill="#996740"/>
+  <path d="M122 70 131 56l6 17Z" fill="#996740"/>
+  <path d="M67 79 56 67l18 4Z" fill="#996740"/>
+  <path d="M133 79 144 67l-18 4Z" fill="#996740"/>
+  <ellipse cx="86" cy="109" rx="7" ry="8" fill="#3f3027"/>
+  <ellipse cx="114" cy="109" rx="7" ry="8" fill="#3f3027"/>
+  <circle cx="86" cy="109" r="2.4" fill="#111"/>
+  <circle cx="114" cy="109" r="2.4" fill="#111"/>
+  <path d="M100 118c6 0 11 3 11 7 0 5-5 9-11 11-6-2-11-6-11-11 0-4 5-7 11-7Z" fill="#64442c"/>
+  <path d="M79 130c12 5 24 7 42 0" fill="none" stroke="#7f5a39" stroke-linecap="round" stroke-width="4"/>
+  <path d="M68 140c-10 7-18 16-24 28" fill="none" stroke="#8f6641" stroke-linecap="round" stroke-width="8"/>
+  <path d="M88 147c-6 7-9 16-11 26" fill="none" stroke="#8f6641" stroke-linecap="round" stroke-width="8"/>
+  <path d="M132 140c10 7 18 16 24 28" fill="none" stroke="#8f6641" stroke-linecap="round" stroke-width="8"/>
+  <path d="M112 147c6 7 9 16 11 26" fill="none" stroke="#8f6641" stroke-linecap="round" stroke-width="8"/>
+  <path d="M57 123c-10-2-20-1-30 5" fill="none" stroke="#8f6641" stroke-linecap="round" stroke-width="6"/>
+  <path d="M143 123c10-2 20-1 30 5" fill="none" stroke="#8f6641" stroke-linecap="round" stroke-width="6"/>
+  <circle cx="84" cy="96" r="4" fill="#e7bc80"/>
+  <circle cx="118" cy="99" r="5" fill="#e7bc80"/>
+  <circle cx="100" cy="90" r="4" fill="#e7bc80"/>
+</svg>

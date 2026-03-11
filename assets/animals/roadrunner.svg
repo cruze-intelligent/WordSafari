@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="title desc">
+  <title id="title">Roadrunner</title>
+  <desc id="desc">A fast desert roadrunner with a crest, long tail, and running legs.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffe8be"/>
+      <stop offset="100%" stop-color="#ffc67a"/>
+    </linearGradient>
+  </defs>
+  <rect width="200" height="200" rx="44" fill="url(#bg)"/>
+  <ellipse cx="101" cy="168" rx="64" ry="16" fill="#d79858" opacity=".8"/>
+  <path d="M71 120c0-26 20-43 46-43 28 0 48 19 48 43 0 18-15 32-34 32H102c-18 0-31-14-31-32Z" fill="#6d4c3a"/>
+  <path d="M83 121c0-17 13-28 30-28 18 0 30 11 30 28 0 14-10 24-24 24h-16c-12 0-20-10-20-24Z" fill="#b98757"/>
+  <path d="M86 77 100 57l6 26Z" fill="#5d3e31"/>
+  <path d="M95 73 111 48l9 29Z" fill="#7a5542"/>
+  <path d="M106 74 126 55l4 28Z" fill="#8a6249"/>
+  <path d="M126 89c13 0 23 10 23 22 0 14-11 24-26 24h-10c5-4 8-11 8-18 0-12-8-22-20-25 6-2 16-3 25-3Z" fill="#f5d4a1"/>
+  <ellipse cx="109" cy="102" rx="7" ry="8" fill="#251d18"/>
+  <circle cx="109" cy="101" r="2.2" fill="#fff"/>
+  <path d="M124 108 155 98l-4 13-26 6Z" fill="#f1a942"/>
+  <path d="M86 126c-16 6-31 19-39 39" fill="none" stroke="#7c563f" stroke-linecap="round" stroke-width="8"/>
+  <path d="M116 152c18 4 36-1 53-16" fill="none" stroke="#6d4c3a" stroke-linecap="round" stroke-width="10"/>
+  <path d="M129 158c17 1 33-5 47-17" fill="none" stroke="#8a6249" stroke-linecap="round" stroke-width="6"/>
+  <path d="M92 149c0 10-4 18-11 25" fill="none" stroke="#cc8632" stroke-linecap="round" stroke-width="7"/>
+  <path d="M108 149c0 10 4 18 11 25" fill="none" stroke="#cc8632" stroke-linecap="round" stroke-width="7"/>
+  <path d="M80 174h18" fill="none" stroke="#5a4233" stroke-linecap="round" stroke-width="4"/>
+  <path d="M111 174h18" fill="none" stroke="#5a4233" stroke-linecap="round" stroke-width="4"/>
+  <path d="M81 134c11 4 22 4 33 0" fill="none" stroke="#f6ddb8" stroke-linecap="round" stroke-width="4"/>
+</svg>

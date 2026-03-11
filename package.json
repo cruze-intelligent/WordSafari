@@ -4,6 +4,7 @@
   "scripts": {
     "test:smoke": "node test.js --scenario=smoke",
     "test:pwa": "node test.js --scenario=pwa",
+    "test:pwa-mobile": "node test.js --scenario=pwa-mobile",
     "test:offline": "node test.js --scenario=offline",
     "test:migration": "node test.js --scenario=migration",
     "test:uiflow": "node test.js --scenario=uiflow",

@@ -1,7 +1,52 @@
-const APP_VERSION = '3.0.0';
+const APP_VERSION = '3.2.0';
 const CACHE_PREFIX = 'wordsafari';
 const PRECACHE_NAME = `${CACHE_PREFIX}-precache-v${APP_VERSION}`;
 const RUNTIME_NAME = `${CACHE_PREFIX}-runtime-v${APP_VERSION}`;
+
+const ANIMAL_ASSET_PATHS = [
+    './assets/animals/lion.png',
+    './assets/animals/elephant.png',
+    './assets/animals/giraffe.png',
+    './assets/animals/zebra.png',
+    './assets/animals/cheetah.png',
+    './assets/animals/rhino.png',
+    './assets/animals/warthog.png',
+    './assets/animals/bear.png',
+    './assets/animals/wolf.png',
+    './assets/animals/deer.png',
+    './assets/animals/owl.png',
+    './assets/animals/fox.png',
+    './assets/animals/squirrel.png',
+    './assets/animals/woodpecker.png',
+    './assets/animals/hippo.png',
+    './assets/animals/croc.png',
+    './assets/animals/frog.png',
+    './assets/animals/otter.png',
+    './assets/animals/kingfisher.png',
+    './assets/animals/python.png',
+    './assets/animals/flamingo.png',
+    './assets/animals/polar_bear.png',
+    './assets/animals/penguin.png',
+    './assets/animals/seal.png',
+    './assets/animals/walrus.png',
+    './assets/animals/orca.png',
+    './assets/animals/narwhal.png',
+    './assets/animals/camel.png',
+    './assets/animals/scorpion.png',
+    './assets/animals/vulture.png',
+    './assets/animals/dolphin.png',
+    './assets/animals/shark.png',
+    './assets/animals/octopus.png',
+    './assets/animals/sea_turtle.png',
+    './assets/animals/jellyfish.png',
+    './assets/animals/clownfish.png',
+    './assets/animals/manta.png',
+    './assets/animals/arctic_fox.svg',
+    './assets/animals/fennec.svg',
+    './assets/animals/meerkat.svg',
+    './assets/animals/horned_lizard.svg',
+    './assets/animals/roadrunner.svg'
+];
 
 const APP_SHELL_ASSETS = [
     './',
@@ -26,7 +71,8 @@ const APP_SHELL_ASSETS = [
     './assets/icons/icon-maskable-512.png',
     './assets/screenshots/screenshot-home.svg',
     './assets/screenshots/screenshot-gameplay.svg',
-    './assets/screenshots/screenshot-desktop.svg'
+    './assets/screenshots/screenshot-desktop.svg',
+    ...ANIMAL_ASSET_PATHS
 ];
 
 self.addEventListener('install', (event) => {

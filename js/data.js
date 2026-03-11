@@ -346,8 +346,11 @@ export function getRandomDailyQuestions(n = 5) {
   return shuffle(DAILY_QUESTIONS).slice(0, n);
 }
 
+const SVG_ANIMAL_ASSET_IDS = new Set(['arctic_fox', 'fennec', 'meerkat', 'horned_lizard', 'roadrunner']);
+
 export function getAnimalImagePath(animalId) {
-  return `assets/animals/${encodeURIComponent(animalId)}.png`;
+  const extension = SVG_ANIMAL_ASSET_IDS.has(animalId) ? 'svg' : 'png';
+  return `assets/animals/${encodeURIComponent(animalId)}.${extension}`;
 }
 
 /* =======================================================

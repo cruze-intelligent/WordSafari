@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="title desc">
+  <title id="title">Meerkat</title>
+  <desc id="desc">A standing meerkat lookout on a sandy mound.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffe6b8"/>
+      <stop offset="100%" stop-color="#ffc97c"/>
+    </linearGradient>
+  </defs>
+  <rect width="200" height="200" rx="44" fill="url(#bg)"/>
+  <ellipse cx="100" cy="168" rx="62" ry="18" fill="#e6a95a" opacity=".9"/>
+  <ellipse cx="100" cy="161" rx="50" ry="12" fill="#f4c27a"/>
+  <path d="M89 71c0-18 9-29 22-29 13 0 22 11 22 29 0 20-12 37-22 37S89 91 89 71Z" fill="#b98554"/>
+  <path d="M95 78c0-14 7-23 16-23 10 0 16 9 16 23 0 16-8 28-16 28-8 0-16-12-16-28Z" fill="#f1d2a8"/>
+  <path d="M95 61 103 46l7 16Z" fill="#b98554"/>
+  <path d="M127 61 119 46l-7 16Z" fill="#b98554"/>
+  <ellipse cx="104" cy="72" rx="6" ry="8" fill="#3d3028"/>
+  <ellipse cx="118" cy="72" rx="6" ry="8" fill="#3d3028"/>
+  <circle cx="104" cy="72" r="2.3" fill="#111"/>
+  <circle cx="118" cy="72" r="2.3" fill="#111"/>
+  <path d="M111 82c5 0 9 3 9 7 0 4-4 7-9 9-5-2-9-5-9-9 0-4 4-7 9-7Z" fill="#4f3a2d"/>
+  <path d="M105 96c2 3 4 4 6 4s4-1 6-4" fill="none" stroke="#7c5c47" stroke-linecap="round" stroke-width="3"/>
+  <path d="M99 104h24c8 17 12 39 12 67H87c0-28 4-50 12-67Z" fill="#c99a68"/>
+  <path d="M105 109h12c6 15 9 36 9 62H96c0-26 3-47 9-62Z" fill="#f0d7b1"/>
+  <path d="M100 122c-9 9-16 20-21 34" fill="none" stroke="#b98554" stroke-linecap="round" stroke-width="8"/>
+  <path d="M122 122c9 9 16 20 21 34" fill="none" stroke="#b98554" stroke-linecap="round" stroke-width="8"/>
+  <path d="M100 171c0-13 4-28 10-44" fill="none" stroke="#8f6747" stroke-linecap="round" stroke-width="8"/>
+  <path d="M123 171c0-13-4-28-10-44" fill="none" stroke="#8f6747" stroke-linecap="round" stroke-width="8"/>
+  <path d="M80 93c-8 7-15 18-18 31" fill="none" stroke="#8d6646" stroke-linecap="round" stroke-width="6"/>
+</svg>

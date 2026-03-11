@@ -20,7 +20,8 @@ function renderAnimalImage(animal) {
 
     const src = getAnimalImagePath(animal.id);
     const alt = escapeHtml(animal.name || animal.id);
-    return `<img class="animal-art" src="${src}" alt="${alt}" decoding="async">`;
+    const formatClass = src.endsWith('.svg') ? 'animal-art--vector' : 'animal-art--raster';
+    return `<img class="animal-art ${formatClass}" src="${src}" alt="${alt}" decoding="async" draggable="false">`;
 }
 
 /* ========================================

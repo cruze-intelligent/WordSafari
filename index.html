@@ -21,8 +21,12 @@
     <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon-180.png">
     <meta name="theme-color" content="#FF8C42">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Word Safari">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="application-name" content="Word Safari">
+    <meta name="format-detection" content="telephone=no">
 
     <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json">
@@ -360,7 +364,7 @@
                 <h2>🌍 Welcome To Word Safari</h2>
                 <p class="welcome-intro">
                     Install Word Safari for faster launch, smoother offline play, and a full-screen safari learning experience.
-                    When your browser shows the install prompt, tap Install to save the app on your device.
+                    On Android you may see an install prompt. On iPhone and iPad, use Safari's Share menu and choose Add to Home Screen.
                 </p>
 
                 <div class="welcome-install-panel">
@@ -368,6 +372,7 @@
                     <div id="welcome-install-status" class="welcome-install-status">
                         Install prompt will appear when supported by your browser.
                     </div>
+                    <ol id="welcome-install-steps" class="welcome-install-steps hidden"></ol>
                 </div>
 
                 <div class="welcome-heartfelt">

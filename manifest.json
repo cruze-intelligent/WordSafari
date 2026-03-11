@@ -4,6 +4,7 @@
   "short_name": "Word Safari",
   "description": "An engaging edutainment game designed to teach children vocabulary, spelling, and animal facts through interactive safari adventures.",
   "lang": "en-US",
+  "dir": "ltr",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
@@ -12,6 +13,7 @@
   "theme_color": "#FF8C42",
   "orientation": "portrait",
   "categories": ["education", "games", "kids"],
+  "prefer_related_applications": false,
   "icons": [
     {
       "src": "assets/icons/icon-192.png",
