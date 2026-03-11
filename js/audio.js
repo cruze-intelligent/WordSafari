@@ -16,6 +16,10 @@ class AudioManager {
         this.isMuted = false;
         this.volume = 0.5;
         this.speechSynthesis = window.speechSynthesis;
+        this.selectedVoice = null;
+        this.speechLang = 'en-US';
+        this.defaultSpeechRate = 0.92;
+        this.defaultSpeechPitch = 1.0;
         this.loadSettings();
         this.init();
     }
@@ -64,9 +68,50 @@ class AudioManager {
             });
 
             this.updateMuteButton();
+            this.refreshSpeechVoice();
         } catch (error) {
             console.log('Audio files not found, using fallback');
         }
+    }
+
+    refreshSpeechVoice() {
+        if (!this.speechSynthesis) return;
+
+        const voices = this.speechSynthesis.getVoices();
+        if (!voices || voices.length === 0) return;
+
+        const preferredNames = [
+            'Microsoft Aria Online (Natural) - English (United States)',
+            'Microsoft Aria - English (United States)',
+            'Google US English',
+            'Samantha'
+        ];
+
+        const preferred = voices.find(v => preferredNames.includes(v.name));
+        if (preferred) {
+            this.selectedVoice = preferred;
+            return;
+        }
+
+        const enUs = voices.find(v => v.lang === 'en-US' || v.lang === 'en_US');
+        if (enUs) {
+            this.selectedVoice = enUs;
+            return;
+        }
+
+        const english = voices.find(v => String(v.lang || '').toLowerCase().startsWith('en'));
+        this.selectedVoice = english || voices[0] || null;
+    }
+
+    normalizeSpeechText(text) {
+        if (!text) return '';
+
+        return String(text)
+            .replace(/[_-]/g, ' ')
+            .replace(/&/g, ' and ')
+            .replace(/[^a-zA-Z0-9\s.,!?']/g, ' ')
+            .replace(/\s+/g, ' ')
+            .trim();
     }
 
     playSound(soundName, loop = false) {
@@ -120,14 +165,21 @@ class AudioManager {
         return this.isMuted;
     }
 
-    speak(text, rate = 0.9) {
+    speak(text, rate = null) {
         if (this.isMuted) return;
 
         if (this.speechSynthesis) {
+            this.refreshSpeechVoice();
+            const cleanText = this.normalizeSpeechText(text);
+            if (!cleanText) return;
+
             this.speechSynthesis.cancel();
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.rate = rate;
-            utterance.pitch = 1;
+            const utterance = new SpeechSynthesisUtterance(cleanText);
+            utterance.lang = this.speechLang;
+            if (this.selectedVoice) utterance.voice = this.selectedVoice;
+            const speechRate = typeof rate === 'number' ? rate : this.defaultSpeechRate;
+            utterance.rate = Math.max(0.75, Math.min(1.2, speechRate));
+            utterance.pitch = this.defaultSpeechPitch;
             utterance.volume = this.volume;
             this.speechSynthesis.speak(utterance);
         }
@@ -147,7 +199,7 @@ export function stopSound(soundName) {
     audioManager.stopSound(soundName);
 }
 
-export function speak(text, rate = 0.9) {
+export function speak(text, rate) {
     audioManager.speak(text, rate);
 }
 
@@ -175,11 +227,8 @@ export function isMuted() {
    LOAD VOICES (for Speech Synthesis)
    ======================================== */
 if ('speechSynthesis' in window) {
-    let voicesLoaded = false;
     const loadVoices = () => {
-        if (voicesLoaded) return;
-        const voices = window.speechSynthesis.getVoices();
-        voicesLoaded = voices.length > 0;
+        audioManager.refreshSpeechVoice();
     };
     window.speechSynthesis.onvoiceschanged = loadVoices;
     loadVoices();

@@ -84,6 +84,28 @@ class GameManager {
         if (badge) badge.textContent = badges[difficulty];
     }
 
+    formatClueForPrompt(clueText) {
+        if (!clueText) return 'has this trait';
+
+        const cleaned = String(clueText)
+            .replace(/\([^)]*\)/g, '') // remove parenthetical helpers for cleaner TTS
+            .replace(/\s+/g, ' ')
+            .trim();
+
+        const lower = cleaned.toLowerCase();
+        const directPrefixes = ['has ', 'can ', 'lives ', 'spends ', 'grows ', 'eats ', 'blends '];
+
+        if (directPrefixes.some(prefix => lower.startsWith(prefix))) {
+            return cleaned;
+        }
+
+        if (lower.startsWith('is ')) {
+            return cleaned;
+        }
+
+        return `is ${cleaned}`;
+    }
+
     generateClue() {
         const settings = progressionManager.getDifficultySettings();
         let availableClues = vocabularyClues;
@@ -116,10 +138,11 @@ class GameManager {
         }
 
         const clueWordEl = document.getElementById('clue-word');
+        const cluePrompt = this.formatClueForPrompt(randomClue.clue);
         if (clueWordEl) {
-            clueWordEl.textContent = randomClue.clue;
+            clueWordEl.textContent = `that ${cluePrompt}`;
         }
-        speak(`Find the animal that is ${randomClue.clue}`);
+        speak(`Find the animal that ${cluePrompt}`);
     }
 
     spawnAnimals() {
