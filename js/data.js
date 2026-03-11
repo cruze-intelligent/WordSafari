@@ -12,10 +12,10 @@ const rand = (arr) => arr[Math.floor(Math.random() * arr.length)];
 const shuffle = (arr) => [...arr].sort(() => Math.random() - 0.5);
 
 /* =======================================================
-   ANIMALS (42)  - minimal SVG placeholders (replace with detailed later)
+   ANIMALS (42)
    Each animal: id, name, biome, attributes[], size (small|medium|large),
    svg, facts
-   SVG is retained only as source art for generated PNG assets.
+   Legacy SVG metadata is retained, but the game renders sourced PNG assets.
    ======================================================= */
 const svgWrap = (body, color = '#FF8C42') =>
   `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">

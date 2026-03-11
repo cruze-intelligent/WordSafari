@@ -2,7 +2,6 @@
   "name": "WordSafari",
   "private": true,
   "scripts": {
-    "assets:animals": "node scripts/generate-animal-pngs.mjs",
     "test:smoke": "node test.js --scenario=smoke",
     "test:pwa": "node test.js --scenario=pwa",
     "test:offline": "node test.js --scenario=offline",
