@@ -546,15 +546,18 @@ class UIManager {
         document.getElementById('achievements-modal').classList.remove('active');
     }
 
-    showEndScreen(score, level, stars, xpEarned, newAchievements = []) {
+    showEndScreen(score, level, stars, xpEarned, newAchievements = [], options = {}) {
+        const { completed = false } = options;
         this.showScreen('end');
 
+        const titleEl = document.querySelector('#end-screen .screen-title');
         document.getElementById('end-score').textContent = score;
         document.getElementById('end-level').textContent = level;
         document.getElementById('end-stars').textContent = '⭐'.repeat(stars);
         document.getElementById('end-xp').textContent = `+${xpEarned} XP`;
+        if (titleEl) titleEl.textContent = completed ? '🏁 Adventure Complete!' : '🎉 Game Over!';
 
-        const msg = this.getEndMessage(stars);
+        const msg = this.getEndMessage(stars, { completed });
         document.getElementById('end-message').innerHTML = `<p>${msg}</p>`;
 
         const unlockedContainer = document.getElementById('unlocked-achievements');
@@ -577,7 +580,13 @@ class UIManager {
         }
     }
 
-    getEndMessage(stars) {
+    getEndMessage(stars, options = {}) {
+        if (options.completed) {
+            if (stars === 3) return '🏆 You completed every biome from savanna to ocean with a masterful run!';
+            if (stars === 2) return '🌍 Adventure complete! You made it through every biome and reached the ocean finish.';
+            return '🗺️ Adventure complete! You reached the end of the safari and finished the full journey.';
+        }
+
         if (stars === 3) return '🎉 Outstanding! You\'re a Safari Master! 🦁';
         if (stars === 2) return '👏 Great job! Keep exploring! 🦒';
         return '🌟 Good effort! Practice makes perfect! 🐘';

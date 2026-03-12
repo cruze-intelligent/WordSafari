@@ -24,6 +24,10 @@ function renderAnimalImage(animal) {
     return `<img class="animal-art ${formatClass}" src="${src}" alt="${alt}" decoding="async" draggable="false">`;
 }
 
+const SCORE_PER_LEVEL = 100;
+const ROUND_CLEAR_BONUS = 20;
+const MAX_ADVENTURE_LEVEL = 12;
+
 /* ========================================
    GAME MANAGER CLASS
    ======================================== */
@@ -219,15 +223,53 @@ class GameManager {
         return container;
     }
 
+    isCorrectAnimal(animal) {
+        return this.correctAnimals.some(ca => ca.id === animal.id);
+    }
+
+    getRemainingCorrectAnimals() {
+        return this.spawnedAnimals.filter(sa =>
+            this.isCorrectAnimal(sa.animal) && sa.element.dataset.caught !== 'true'
+        );
+    }
+
+    getLevelStartScore(level = this.level) {
+        return Math.max(0, (level - 1) * SCORE_PER_LEVEL);
+    }
+
+    getLevelTargetScore(level = this.level) {
+        return level * SCORE_PER_LEVEL;
+    }
+
+    getLevelProgressPercent() {
+        const levelStart = this.getLevelStartScore();
+        const levelTarget = this.getLevelTargetScore();
+        const scoreRange = levelTarget - levelStart;
+
+        if (scoreRange <= 0) return 100;
+
+        const progress = ((this.score - levelStart) / scoreRange) * 100;
+        return Math.min(100, Math.max(0, progress));
+    }
+
     handleAnimalClick(animal, element) {
         if (!this.isPlaying) return;
 
-        const isCorrect = this.correctAnimals.some(ca => ca.id === animal.id);
+        const isCorrect = this.isCorrectAnimal(animal);
         const clickTime = (Date.now() - this.levelStartTime) / 1000;
+        const remainingCorrectBeforeClick = this.getRemainingCorrectAnimals().length;
 
         if (isCorrect) {
+            if (element.dataset.caught === 'true') return;
+
+            element.dataset.caught = 'true';
+            element.style.pointerEvents = 'none';
             this.correctStreak++;
             this.score += 10 * this.level * (this.correctStreak > 1 ? this.correctStreak : 1);
+
+            if (remainingCorrectBeforeClick === 1) {
+                this.score += ROUND_CLEAR_BONUS;
+            }
 
             playSound('correct');
             this.showFeedback(true, element);
@@ -248,9 +290,7 @@ class GameManager {
                 element.remove();
                 this.spawnedAnimals = this.spawnedAnimals.filter(sa => sa.element !== element);
 
-                const remainingCorrect = this.spawnedAnimals.filter(sa =>
-                    this.correctAnimals.some(ca => ca.id === sa.animal.id)
-                );
+                const remainingCorrect = this.getRemainingCorrectAnimals();
 
                 if (remainingCorrect.length === 0) {
                     this.nextRound();
@@ -360,8 +400,8 @@ class GameManager {
         const xpProgress = progressionManager.getXPProgress();
         if (xpEl) xpEl.textContent = `${xpProgress.current}/${xpProgress.needed}`;
 
-        const progress = ((this.level - 1) * 100 + (this.score % 100)) / (this.level * 100) * 100;
-        if (progressBar) progressBar.style.width = `${Math.min(progress, 100)}%`;
+        const progress = this.getLevelProgressPercent();
+        if (progressBar) progressBar.style.width = `${progress}%`;
     }
 
     startTimer() {
@@ -380,11 +420,22 @@ class GameManager {
     }
 
     nextRound() {
-        this.score += 20;
         progressionManager.stats.levelsInSession++;
+        let leveledUp = false;
 
-        if (this.score >= this.level * 100) {
-            this.levelUp();
+        while (this.score >= this.getLevelTargetScore()) {
+            if (this.level >= MAX_ADVENTURE_LEVEL) {
+                this.completeAdventure();
+                return;
+            }
+
+            this.levelUp({ announce: false });
+            leveledUp = true;
+        }
+
+        if (leveledUp) {
+            speak(`Level ${this.level}!`);
+            playSound('correct');
         }
 
         this.generateClue();
@@ -393,7 +444,8 @@ class GameManager {
         this.levelStartTime = Date.now();
     }
 
-    levelUp() {
+    levelUp(options = {}) {
+        const { announce = true } = options;
         this.level++;
         const settings = progressionManager.getDifficultySettings();
         this.timeRemaining += Math.floor(15 * settings.timeMultiplier);
@@ -405,15 +457,24 @@ class GameManager {
         if (this.level === 9) this.biome = 'desert';
         if (this.level === 11) this.biome = 'ocean';
 
-        speak(`Level ${this.level}!`);
-        playSound('correct');
+        if (announce) {
+            speak(`Level ${this.level}!`);
+            playSound('correct');
+        }
     }
 
-    endGame() {
+    completeAdventure() {
+        playSound('correct');
+        speak('Adventure complete!');
+        this.finishAdventure({ completed: true });
+    }
+
+    finishAdventure({ completed = false } = {}) {
         this.isPlaying = false;
         clearInterval(this.timerInterval);
 
-        const totalTime = Math.floor((Date.now() - this.startTime) / 1000);
+        const sessionStart = this.startTime || Date.now();
+        const totalTime = Math.max(0, Math.floor((Date.now() - sessionStart) / 1000));
         const stars = this.calculateStars();
 
         // Record game completion
@@ -430,8 +491,19 @@ class GameManager {
 
         // Show end screen
         if (window.uiManager) {
-            window.uiManager.showEndScreen(this.score, this.level, stars, xpEarned, newAchievements);
+            window.uiManager.showEndScreen(
+                this.score,
+                this.level,
+                stars,
+                xpEarned,
+                newAchievements,
+                { completed }
+            );
         }
+    }
+
+    endGame() {
+        this.finishAdventure();
     }
 
     calculateStars() {

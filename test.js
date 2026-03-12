@@ -133,6 +133,15 @@ async function runSmokeTest(browser) {
   const isStartActive = await page.$eval('#start-screen', (el) => el.classList.contains('active'));
   assert(isStartActive, 'Start screen should be active on initial load.');
 
+  const welcomeVisible = await page.$eval('#welcome-modal', (el) => el.classList.contains('active'));
+  assert(welcomeVisible, 'Welcome modal should open on initial load.');
+
+  await page.click('#btn-welcome-start');
+  await page.waitForFunction(() => {
+    const modal = document.getElementById('welcome-modal');
+    return modal && !modal.classList.contains('active');
+  }, { timeout: 3000 });
+
   await page.click('#btn-play');
   await page.waitForFunction(() => {
     const start = document.getElementById('start-screen');
@@ -380,6 +389,71 @@ async function runUiFlowTest(browser) {
   return 'UI flow test passed';
 }
 
+async function runAdventureCompletionTest(browser) {
+  const page = await preparePage(browser, {
+    seedStorage: () => {
+      localStorage.removeItem('wordSafari_welcome_seen_v3');
+    }
+  });
+
+  await page.goto(BASE_URL, { waitUntil: 'networkidle0' });
+  await page.waitForFunction(() => {
+    const modal = document.getElementById('welcome-modal');
+    return modal && modal.classList.contains('active');
+  }, { timeout: 3000 });
+  await page.click('#btn-welcome-start');
+  await page.waitForFunction(() => {
+    const modal = document.getElementById('welcome-modal');
+    return modal && !modal.classList.contains('active');
+  }, { timeout: 3000 });
+  await page.click('#btn-play');
+  await page.waitForFunction(() => {
+    const game = document.getElementById('game-screen');
+    return game && game.classList.contains('active');
+  }, { timeout: 4000 });
+
+  const progressWidth = await page.evaluate(async () => {
+    const { gameManager } = await import('./js/game.js');
+    gameManager.score = 180;
+    gameManager.level = 2;
+    gameManager.timeRemaining = 45;
+    gameManager.updateHUD();
+    return document.getElementById('progress-bar').style.width;
+  });
+
+  assert(progressWidth === '80%', `Progress bar should show 80% for level 2 at score 180. Got "${progressWidth}".`);
+
+  const completionState = await page.evaluate(async () => {
+    const { gameManager } = await import('./js/game.js');
+    gameManager.score = 1200;
+    gameManager.level = 12;
+    gameManager.biome = 'ocean';
+    gameManager.timeRemaining = 18;
+    gameManager.startTime = Date.now() - 5000;
+    gameManager.isPlaying = true;
+    gameManager.updateHUD();
+    gameManager.nextRound();
+
+    return {
+      endActive: document.getElementById('end-screen').classList.contains('active'),
+      title: document.querySelector('#end-screen .screen-title')?.textContent?.trim(),
+      message: document.getElementById('end-message')?.textContent?.trim(),
+      level: document.getElementById('end-level')?.textContent?.trim()
+    };
+  });
+
+  assert(completionState.endActive, 'Adventure should end when the final level target is reached.');
+  assert(completionState.title === '🏁 Adventure Complete!', `Expected completion title, got "${completionState.title}".`);
+  assert(
+    completionState.message.includes('Adventure complete') || completionState.message.includes('completed every biome'),
+    `Completion message should describe the completed journey. Got "${completionState.message}".`
+  );
+  assert(completionState.level === '12', `Final level should remain 12 on completion. Got "${completionState.level}".`);
+
+  await page.close();
+  return 'Adventure completion test passed';
+}
+
 async function runScenario(browser, scenario) {
   const scenarios = {
     smoke: runSmokeTest,
@@ -387,11 +461,12 @@ async function runScenario(browser, scenario) {
     'pwa-mobile': runPwaMobileTest,
     offline: runOfflineTest,
     migration: runMigrationTest,
-    uiflow: runUiFlowTest
+    uiflow: runUiFlowTest,
+    adventure: runAdventureCompletionTest
   };
 
   if (scenario === 'readiness') {
-    const ordered = ['smoke', 'pwa', 'offline', 'migration', 'uiflow'];
+    const ordered = ['smoke', 'pwa', 'offline', 'migration', 'uiflow', 'adventure'];
     const results = [];
 
     for (const name of ordered) {
